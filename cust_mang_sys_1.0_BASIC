@@ -1,0 +1,140 @@
+""""""
+#               customer managment system [CMS]  VERSION : 1.01 #BASIC
+#"""""
+
+#<!------------------BLL : BUSSINESS LOGIC LAYER---------------------->
+idList=[]                   #GLOBAL STORAGE
+namList=[]
+mailList=[]
+mobList=[]
+sexList=[]
+stateList=[]
+pincList=[]
+statList=[]
+
+def addCustomer(id,nam,mail,mob,sex,state,pinc,stat):            #STORING DATA OF NEW CUST
+    idList.append(id)
+    namList.append(nam)
+
+    mailList.append(mail)
+    mobList.append(mob)
+    sexList.append(sex)
+    stateList.append(state)
+    pincList.append(pinc)
+    statList.append(stat)
+
+def deleteCustomer(id):                                     #DELETING DATA of cust.
+    i=idList.index(id)
+    idList.pop(i)
+    namList.pop(i)
+    mailList.pop(i)
+    sexList.pop(i)
+    stateList.pop(i)
+    pincList.pop(i)
+    stateList.pop(i)
+
+def update_Cust(id,nam,mail,mob,sex,state,pinc,stat):
+    i = idList.index(id)
+    namList[i]=nam
+
+    mailList[i]=mail
+    mobList[i]=mob
+    sexList[i]=sex
+    stateList[i]=state
+    pincList[i]=pinc
+    statList[i]=stat
+
+def search_Customer(id):
+    i = idList.index(id)
+    return i
+
+def generate_Randomid(nam,mob,sex):
+    while(1):
+        Rid = random.randint(100000,999999)
+        Rid = mob[:3]+nam[1:]+str(Rid)+sex
+        if (Rid not in idList):
+            break
+        return Rid
+
+
+#<!------------------PL : PRESENTATION LAYER-------------------------->
+
+def  show_Customer(i):
+
+    print(f"SEARCHING ID : {idList[i]} \n NAME :{namList[i].upper()} \nE-mail : {mailList[i]}\nCONTACT no : {mobList[i]}\nAddress :{stateList[i]}\nPIN_CODE : {pincList[i]}\nSex :{sexList[i]}\tSTATUS :{statList[i]}\n\n")
+
+def generateId(id):
+    if(len(idList)==0):
+        id = "1"
+    else:
+        id = int(idList[-1])+1
+    return id
+
+print("\t\t\t Welcome to Ravi 's CMS :\n\n")            #greeting
+while(1):
+    print("--------------\nINFO :")
+    print("For CREATE  customer , Press 1 ")                #display instructions
+    print("For DELETE  customer , Press 2 ")
+    print("For UPDATE  customer , Press 3 ")
+    print("For SEARCH  customer , Press 4 ")
+    print("For DISPLAY customer , Press 5 ")
+    print("For EXIT   , Press 6 ")
+
+    ch=(input("\nEnter your Action : "))                       #user 's action
+    print("\n*******************")
+    if(ch=="1"):                                               #ADD cust
+        id = generateId(id)
+        nam = input("Enter CUSTOMER 's FULL name : ").strip()
+      #  age=get_Age(age)
+        mail = input("Enter CUSTOMER 's E-mail ID : ").strip()
+        mail = mail.lower()
+        mob = input("Enter CUSTOMER 's CONTACT no : ").strip()
+        sex = input("Enter CUSTOMER 's Gender [M/F] :")
+        sex = sex.upper()
+
+        state =input("Enter CUSTOMER 's Address     : ").strip()
+        state = state.upper()
+        pin =(input("Enter CUSTOMER 's Postal PIN   :"))
+        pinc=pin[:3]+"-"+pin[3:]
+        stat = input("CUSTOMER STATUS [Approved/pending] :")
+        stat = stat.upper()
+        nam = nam.lower()           #lowercase _name
+        addCustomer(id,nam,mail,mob,sex,state,pinc,stat)
+        print("\nCUSTOMER details has Successfully Created ...\n\n")
+
+
+    elif(ch=="2"):                                             #DEL cust
+        id =input("Enter the AUTHORIZED id : ")
+        deleteCustomer(id)
+        print(f"\nThe Customer id : {id} has successfully Deleted ...\n\n  ")
+    elif (ch == "3"):                                          #UPDATE cust
+        id = input("Enter the Authorized id : ")
+        nam = input("\nEnter CUSTOMER 's FULL name : ").strip()
+        nam = nam.lower()
+       # age = get_Age(age)
+        mail = input("Enter CUSTOME 's E-mail ID : ").strip()
+        mail = mail.lower()
+        mob = input("Enter CUSTOMER 's CONTACT no : ").strip()
+        sex = input("Enter CUSTOMER 's Gender [M/F] :")
+        sex = sex.upper()
+        state = input("Enter CUSTOMER 's Address     : ")
+        state = state.upper()
+        pin = (input("Enter CUSTOMER 's Postal PIN   :"))
+        pinc = pin[:3] + "-" + pin[3:]
+        stat = input("CUSTOMER STATUS [Approved/pending] :")
+        update_Cust(id,nam,mail,mob,sex,state,pinc,stat)
+        print(f"\nid : {id} has succefully updated...\n\n")
+
+
+    elif (ch == "4"):                                          #SEARCH cust
+        id = input("Enter the AUTHORIZED id : ")
+        i = search_Customer(id)
+        show_Customer(i)
+    elif (ch == "5"):                                          #DISPLAY cust
+        for i in range(len(idList)):
+            show_Customer(i)
+    elif(ch=="6"):                                               #EXIT
+        print("\n\nThanks for visiting ...\n*************************\n\n")
+        break
+    else:
+        print("\t\tOOPS !! Something went wrong ...Try Again..\n\n Read all the instructions carefully\n********************\n\n")
